@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Groomer;
 use App\Models\UserDetails;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
