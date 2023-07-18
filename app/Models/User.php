@@ -25,7 +25,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'type', //add this "type", to differential user and doctor
+        'type', //add this "type", to differential user and groomer
         'email',
         'password',
     ];
@@ -60,10 +60,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    //this is to state that users has one relationship with doctor
-    //each user id refer to one doctor id
-    public function doctor(){
-        return $this->hasOne(Doctor::class, 'doc_id');
+    //this is to state that users has one relationship with groomer
+    //each user id refer to one groomer id
+    public function groomer(){
+        return $this->hasOne(groomer::class, 'groomer_id');
     }
 
     //same go to user details

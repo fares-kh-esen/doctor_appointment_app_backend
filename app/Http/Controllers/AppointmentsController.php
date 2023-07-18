@@ -18,16 +18,16 @@ class AppointmentsController extends Controller
     {
         //retrieve all appointments from the user
         $appointment = Appointments::where('user_id', Auth::user()->id)->get();
-        $doctor = User::where('type', 'doctor')->get();
+        $groomer = User::where('type', 'groomer')->get();
 
-        //sorting appointment and doctor details
+        //sorting appointment and groomer details
         //and get all related appointment
         foreach($appointment as $data){
-            foreach($doctor as $info){
-                $details = $info->doctor;
-                if($data['doc_id'] == $info['id']){
-                    $data['doctor_name'] = $info['name'];
-                    $data['doctor_profile'] = $info['profile_photo_url']; //typo error found
+            foreach($groomer as $info){
+                $details = $info->groomer;
+                if($data['groomer_id'] == $info['id']){
+                    $data['groomer_name'] = $info['name'];
+                    $data['groomer_profile'] = $info['profile_photo_url']; //typo error found
                     $data['category'] = $details['category'];
                 }
             }
@@ -54,10 +54,10 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //this controller is to store booking details post from mobile app
+        //ni nak store booking details post from mobile app
         $appointment = new Appointments();
         $appointment->user_id = Auth::user()->id;
-        $appointment->doc_id = $request->get('doctor_id');
+        $appointment->groomer_id = $request->get('groomer_id');
         $appointment->date = $request->get('date');
         $appointment->day = $request->get('day');
         $appointment->time = $request->get('time');

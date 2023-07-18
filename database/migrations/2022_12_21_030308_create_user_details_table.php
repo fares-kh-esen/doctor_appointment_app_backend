@@ -13,7 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        //this table is same as doctor table
         //but is for users to store their details
         Schema::create('user_details', function (Blueprint $table) {
             $table->increments('id');

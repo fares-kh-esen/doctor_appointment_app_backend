@@ -11,7 +11,7 @@ class Reviews extends Model
 
     protected $fillable = [
         'user_id',
-        'doc_id',
+        'groomer_id',
         'ratings',
         'reviews',
         'reviewed_by',

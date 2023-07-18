@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentsController;
-use App\Http\Controllers\DocsController;
+use App\Http\Controllers\GroomersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,14 +21,12 @@ Route::post('/test', [UsersController::class, 'test']);
 Route::post('/login', [UsersController::class, 'login']);
 Route::post('/register', [UsersController::class, 'register']);
 
-//modify this
-//this group mean return user's data if authenticated successfully
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UsersController::class, 'index']);
-    Route::post('/fav', [UsersController::class, 'storeFavDoc']);
+    Route::post('/fav', [UsersController::class, 'storeFavGroomer']);
     Route::post('/logout', [UsersController::class, 'logout']);
     Route::post('/book', [AppointmentsController::class, 'store']);
-    Route::post('/reviews', [DocsController::class, 'store']);
+    Route::post('/reviews', [GroomersController::class, 'store']);
     Route::get('/appointments', [AppointmentsController::class, 'index']);
 });
 

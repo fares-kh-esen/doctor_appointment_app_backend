@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Doctor extends Model
+class Groomer extends Model
 {
     use HasFactory;
 
     //these are fillable input
     protected $fillable = [
-        'doc_id',
+        'groomer_id',
         'category',
         'patients',
         'experience',

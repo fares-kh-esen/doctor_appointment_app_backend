@@ -7,7 +7,7 @@ use App\Models\Reviews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DocsController extends Controller
+class GroomersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +16,13 @@ class DocsController extends Controller
      */
     public function index()
     {
-        //get doctor's appointment, patients and display on dashboard
-        $doctor = Auth::user();
-        $appointments = Appointments::where('doc_id', $doctor->id)->where('status', 'upcoming')->get();
-        $reviews = Reviews::where('doc_id', $doctor->id)->where('status', 'active')->get();
+        //get groomer's appointment, patients and display on dashboard
+        $groomer = Auth::user();
+        $appointments = Appointments::where('groomer_id', $groomer->id)->where('status', 'upcoming')->get();
+        $reviews = Reviews::where('groomer_id', $groomer->id)->where('status', 'active')->get();
 
         //return all data to dashboard
-        return view('dashboard')->with(['doctor'=>$doctor, 'appointments'=>$appointments, 'reviews'=>$reviews]);
+        return view('dashboard')->with(['groomer'=>$groomer, 'appointments'=>$appointments, 'reviews'=>$reviews]);
     }
 
     /**
@@ -42,6 +42,7 @@ class DocsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+
     {
         //this controller is to store booking details post from mobile app
         $reviews = new Reviews();
@@ -50,7 +51,7 @@ class DocsController extends Controller
 
         //save the ratings and reviews from user
         $reviews->user_id = Auth::user()->id;
-        $reviews->doc_id = $request->get('doctor_id');
+        $reviews->groomer_id = $request->get('groomer_id');
         $reviews->ratings = $request->get('ratings');
         $reviews->reviews = $request->get('reviews');
         $reviews->reviewed_by = Auth::user()->name;
