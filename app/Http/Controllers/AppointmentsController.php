@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointments;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AppointmentsController extends Controller
@@ -17,23 +18,9 @@ class AppointmentsController extends Controller
     public function index()
     {
         //retrieve all appointments from the user
-        $appointment = Appointments::where('user_id', Auth::user()->id)->get();
-        $groomer = User::where('type', 'groomer')->get();
+        $appointments = Appointments::with('groomer.user')->where('user_id', Auth::user()->id)->get();
 
-        //sorting appointment and groomer details
-        //and get all related appointment
-        foreach($appointment as $data){
-            foreach($groomer as $info){
-                $details = $info->groomer;
-                if($data['groomer_id'] == $info['id']){
-                    $data['groomer_name'] = $info['name'];
-                    $data['groomer_profile'] = $info['profile_photo_url']; //typo error found
-                    $data['category'] = $details['category'];
-                }
-            }
-        }
-
-        return $appointment;
+        return $appointments;
     }
 
     /**
@@ -54,16 +41,23 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            //code...
+
         //ni nak store booking details post from mobile app
         $appointment = new Appointments();
         $appointment->user_id = Auth::user()->id;
         $appointment->groomer_id = $request->get('groomer_id');
-        $appointment->date = $request->get('date');
+        $appointment->date = Carbon::parse($request->get('date'));
         $appointment->day = $request->get('day');
         $appointment->time = $request->get('time');
         $appointment->status = 'upcoming'; //new appointment will be saved as 'upcoming' by default
         $appointment->save();
-
+    } catch (\Throwable $th) {
+        return response()->json([
+            'success'=>$th->getMessage(),
+        ], 500);
+    }
         //if successfully, return status code 200
         return response()->json([
             'success'=>'New Appointment has been made successfully!',

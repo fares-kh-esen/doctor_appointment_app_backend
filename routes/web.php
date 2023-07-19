@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\GroomersController;
+use App\Models\Appointments;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +27,8 @@ Route::middleware([
 ])->group(function () {
 });
 Route::get('dashboard', [GroomersController::class, 'index'])->name('dashboard');
+Route::get('test', function(){
+    // return Carbon::now();
+    return  $appointment = Appointments::whereDate('date', '=' ,Carbon::today()->toDateString())->first();;
+});
 

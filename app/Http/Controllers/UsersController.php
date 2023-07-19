@@ -6,6 +6,7 @@ use App\Models\Appointments;
 use App\Models\User;
 use App\Models\Groomer;
 use App\Models\UserDetails;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,12 @@ class UsersController extends Controller
         // $groomer = User::with('user_details')->where('type', 'groomer')->get();
         $groomers = Groomer::with('user')->where('groomer_id' , '<>' , $user->id)->get();
         //this is the date format without leading
-        $date = now()->format('n/j/Y'); //change date format to suit the format in database
 
         //make this appointment filter only status is "upcoming"
-        // $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
+        $appointment = Appointments::with('groomer.user')->where([
+            'status' => 'upcoming',
+            'user_id' => $user->id
+            ])->whereDate('date', '=' ,Carbon::today()->toDateString())->first();
 
         //collect user data and all groomer details
         // foreach($groomerData as $data){
@@ -48,6 +51,7 @@ class UsersController extends Controller
         // $user['groomer'] = $groomerData;
 
         return response([
+            'appoitment' => $appointment,
             'user' => $user,
             'groomers' => $groomers,
         ] , 200); //return all data

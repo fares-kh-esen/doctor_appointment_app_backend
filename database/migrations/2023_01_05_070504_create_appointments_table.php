@@ -18,11 +18,12 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('groomer_id');
-            $table->string('date');
+            $table->date('date');
             $table->string('day');
             $table->string('time');
             $table->string('status');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('groomer_id')->references('id')->on('groomers')->onDelete('cascade');
             $table->timestamps();
         });
     }
