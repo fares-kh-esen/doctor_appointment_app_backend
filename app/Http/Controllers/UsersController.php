@@ -21,36 +21,38 @@ class UsersController extends Controller
     {
         $user = array(); //this will return a set of user and groomer data
         $user = Auth::user();
-        $groomer = User::where('type', 'groomer')->get();
-        $details = $user->user_details;
-        $groomerData = groomer::all();
+        // $groomer = User::with('user_details')->where('type', 'groomer')->get();
+        $groomers = Groomer::with('user')->where('groomer_id' , '<>' , $user->id)->get();
         //this is the date format without leading
         $date = now()->format('n/j/Y'); //change date format to suit the format in database
 
         //make this appointment filter only status is "upcoming"
-        $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
+        // $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
 
         //collect user data and all groomer details
-        foreach($groomerData as $data){
-            //sorting groomer name and groomer details
-            foreach($groomer as $info){
-                if($data['groomer_id'] == $info['id']){
-                    $data['groomer_name'] = $info['name'];
-                    $data['groomer_profile'] = $info['profile_photo_url'];
-                    if(isset($appointment) && $appointment['groomer_id'] == $info['id']){
-                        $data['appointments'] = $appointment;
-                    }
-                }
-            }
-        }
+        // foreach($groomerData as $data){
+        //     //sorting groomer name and groomer details
+        //     foreach($groomer as $info){
+        //         if($data['groomer_id'] == $info['id']){
+        //             $data['groomer_name'] = $info['name'];
+        //             $data['groomer_profile'] = $info['profile_photo_url'];
+        //             $data['groomer_profile'] = $info['profile_photo_url'];
+        //             $data['groomer_profile'] = $info['profile_photo_url'];
+        //             if(isset($appointment) && $appointment['groomer_id'] == $info['id']){
+        //                 $data['appointments'] = $appointment;
+        //             }
+        //         }
+        //     }
+        // }
 
-        $user['groomer'] = $groomerData;
-        $user['details'] = $details; //return user details here together with groomer list
+        // $user['groomer'] = $groomerData;
 
-        return $user; //return all data
+        return response([
+            'user' => $user,
+            'groomers' => $groomers,
+        ] , 200); //return all data
     }
-    public function test(Request $reqeust)
-{var_dump(3);}
+
     /**
      * loign.
      *

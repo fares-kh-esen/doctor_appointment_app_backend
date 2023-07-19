@@ -63,7 +63,7 @@
         <!-- Bio Data -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="bio" value="{{ __('Bio Data') }}" />
-            <textarea class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="bio" wire:model.defer="state.bio_data" placeholder="Bio Data"></textarea>
+            <textarea class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" id="bio" wire:model="state.groomer.bio_data" ></textarea>
             <x-jet-input-error for="bio" class="mt-2" />
         </div>
 

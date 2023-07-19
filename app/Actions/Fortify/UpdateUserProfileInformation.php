@@ -41,9 +41,9 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         $groomer = Groomer::where('groomer_id', $user->id)
         ->update([
-            'experience' => $input['experience'],
-            'bio_data' => $input['bio_data'],
-            'category' => $input['category'],
+            'experience' => $input['experience'] ?? 0,
+            'bio_data' => $input['bio_data'] ?? "",
+            'category' => $input['category'] ?? 0,
         ]);
     }
 
